@@ -5,7 +5,7 @@ on:
       enable_anomalous_call:
         description: 'Make anomalous outbound call'
         required: false
-        default: true
+        default: false
         type: boolean
       run_only_anomalous:
         description: 'Run only the anomalous-outbound-call job'
