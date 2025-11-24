@@ -246,8 +246,6 @@ jobs:
         # Attempt to connect to the random domain (this will likely fail)
         curl -I --max-time 5 "https://$ANOMALOUS_DOMAIN" || true
 
-        curl okcupid.com
-
     - name: Run anomalous calls (suppression)
       if: always()
       run: |
