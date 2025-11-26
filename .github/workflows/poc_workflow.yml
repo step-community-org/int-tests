@@ -91,7 +91,7 @@ jobs:
           sleep 10  # wait 10 seconds between calls
         done
 
-    - name: Run anomalous calls (suppression)
+    - name: Run anomalous calls
       if: always()
       run: |
         # Generate a random subdomain
