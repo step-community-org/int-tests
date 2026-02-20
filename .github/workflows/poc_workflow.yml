@@ -74,11 +74,12 @@ jobs:
     - name: Run anomalous calls
       if: always()
       run: |
-        # Generate a random subdomain
-        RANDOM_SUBDOMAIN=$(openssl rand -hex 8)
-        ANOMALOUS_DOMAIN="${RANDOM_SUBDOMAIN}.suppress${RANDOM_SUBDOMAIN}.com"
+          curl bing.com
+      #   # Generate a random subdomain
+      #   RANDOM_SUBDOMAIN=$(openssl rand -hex 8)
+      #   ANOMALOUS_DOMAIN="${RANDOM_SUBDOMAIN}.suppress${RANDOM_SUBDOMAIN}.com"
         
-        echo "Making anomalous call to: $ANOMALOUS_DOMAIN"
+      #   echo "Making anomalous call to: $ANOMALOUS_DOMAIN"
         
-        # Attempt to connect to the random domain (this will likely fail)
-        curl -I --max-time 5 "https://$ANOMALOUS_DOMAIN" || true
+      #   # Attempt to connect to the random domain (this will likely fail)
+      #   curl -I --max-time 5 "https://$ANOMALOUS_DOMAIN" || true
