@@ -1,0 +1,25 @@
+name: LockDown-Privileged
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Deploy2
+    runs-on: [self-hosted, ec2]
+    steps:
+      - uses: step-security/harden-runner@rc
+        with:
+          egress-policy: audit
+      - name: Code Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+          
+      - name: Curl google
+        run: "curl -s https://google.com"
+
+      - name: run privileged
+        run: docker run --rm --privileged ubuntu bash -c "sleep 5"
+                  
+      - name: Curl youtube
+        run: "curl -s https://youtube.com"
