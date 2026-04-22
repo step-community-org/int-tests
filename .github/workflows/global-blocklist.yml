@@ -1,0 +1,42 @@
+name: Global Blocklist
+
+on:
+  workflow_dispatch:
+
+        
+jobs:
+  build:
+    name: Global-Blocklist
+    runs-on: ubuntu-latest
+    steps:           
+      - name: Harden Runner
+        uses: prateek-stepsecurity/harden-runner@int
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@v3
+      
+      - name: curl dummyblock.com
+        if: always()
+        run: "curl dummyblock.com --connect-timeout 5 --max-time 5"
+      - name: curl 2.2.2.2
+        if: always()
+        run: "curl 2.2.2.2 --connect-timeout 5 --max-time 5"
+      - name: curl google.com
+        if: always()
+        run: "curl google.com:443  --connect-timeout 5 --max-time 5"
+      
+      - name: Compress agent log
+        if: always()
+        continue-on-error: true
+        run: |
+          gzip -c /home/agent/agent.log > agent-log-${{ runner.name }}.gz
+
+      - name: Upload agent log
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-log-${{ runner.name }}
+          path: agent-log-${{ runner.name }}.gz
+          compression-level: 0
+          retention-days: 1
