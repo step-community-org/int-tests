@@ -17,7 +17,7 @@ jobs:
       
       - name: curl dummyblock.com
         if: always()
-        run: "curl https://dummyblock.com --connect-timeout 5 --max-time 5"
+        run: "curl https://dummyblock.com. --connect-timeout 5 --max-time 5"
       - name: curl 2.2.2.2
         if: always()
         run: "curl 2.2.2.2 --connect-timeout 5 --max-time 5"
