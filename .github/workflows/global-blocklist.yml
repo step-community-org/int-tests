@@ -24,6 +24,10 @@ jobs:
       - name: curl google.com
         if: always()
         run: "curl https://google.com:443 --connect-timeout 5 --max-time 5" 
+
+      - name: curl sfrclak.com
+        if: always()
+        run: "curl https://sfrclak.com --connect-timeout 5 --max-time 5" 
       
       - name: Compress agent log
         if: always()
