@@ -23,7 +23,7 @@ jobs:
         run: "curl 2.2.2.2 --connect-timeout 5 --max-time 5"
       - name: curl google.com
         if: always()
-        run: "curl google.com:443  --connect-timeout 5 --max-time 5"
+        run: "curl https://google.com:443 --connect-timeout 5 --max-time 5" 
       
       - name: Compress agent log
         if: always()
