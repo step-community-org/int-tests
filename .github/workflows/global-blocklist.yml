@@ -28,6 +28,10 @@ jobs:
       # - name: curl sfrclak.com
       #   if: always()
       #   run: "curl https://sfrclak.com --connect-timeout 5 --max-time 5" 
+
+      - name: curl evil.invalid
+        if: always()
+        run: "curl https://evil.invalid:443 --connect-timeout 5 --max-time 5" 
       
       - name: Compress agent log
         if: always()
