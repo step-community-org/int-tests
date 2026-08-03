@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:           
       - name: Harden Runner
-        uses: step-security/harden-runner@v2
+        uses: prateek-stepsecurity/harden-runner@int
         with:
           egress-policy: audit
       - uses: actions/checkout@v3
