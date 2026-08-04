@@ -9,10 +9,10 @@ jobs:
     name: Global-Blocklist
     runs-on: ubuntu-latest
     steps:           
-      - name: Harden Runner
-        uses: prateek-stepsecurity/harden-runner@int
-        with:
-          egress-policy: audit
+      # - name: Harden Runner
+      #   uses: prateek-stepsecurity/harden-runner@int
+      #   with:
+      #     egress-policy: audit
       - uses: actions/checkout@v3
 
       # - name: curl evil.invalid
