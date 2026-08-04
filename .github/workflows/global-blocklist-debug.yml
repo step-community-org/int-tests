@@ -22,11 +22,7 @@ jobs:
       - name: curl 2.2.2.2
         if: always()
         run: "curl 2.2.2.2 --connect-timeout 5 --max-time 5"
-        
-      - name: curl 142.11.206.73
-        if: always()
-        run: "curl 142.11.206.73 --connect-timeout 5 --max-time 5"
-        
+                
       - name: curl google.com
         if: always()
         run: "curl https://google.com:443 --connect-timeout 5 --max-time 5" 
