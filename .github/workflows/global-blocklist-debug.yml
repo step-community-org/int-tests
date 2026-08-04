@@ -12,7 +12,7 @@ jobs:
       - name: Harden Runner
         uses: prateek-stepsecurity/harden-runner@int
         with:
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: >
             github.com:443
             
