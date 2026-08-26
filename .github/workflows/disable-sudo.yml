@@ -1,0 +1,23 @@
+name: Disable sudo
+on:
+  workflow_dispatch:
+jobs:
+  priv-01-sudo-block:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Harden Runner (disable-sudo-and-containers)
+        uses: prateek-stepsecurity/harden-runner@int
+        with:
+          egress-policy: audit
+          disable-sudo-and-containers: true
+      - name: Attempt sudo (expect failure)
+        run: |
+          sudo whoami
+      - name: Attempt sudo (expect failure)
+        if: always()
+        run: |
+          curl https://google.com
+          curl https://youtube.com
+          
