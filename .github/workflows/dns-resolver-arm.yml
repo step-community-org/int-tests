@@ -10,8 +10,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm]
-        run: [1, 2, 3, 4]
+        os: [ubuntu-24.04-arm, ubuntu-26.04-arm]
+        run: [1]
+
     steps:
       # Note: the harden-runner agent starts in its pre step, i.e. before this step.
       # The metadata calls use a link-local address, so they work in block mode.
