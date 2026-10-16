@@ -13,19 +13,35 @@ jobs:
         os: [ubuntu-latest, ubuntu-24.04-arm]
         run: [1, 2, 3, 4]
     steps:
-      # Runs before harden-runner so block mode cannot interfere with the metadata call.
+      # Note: the harden-runner agent starts in its pre step, i.e. before this step.
+      # The metadata calls use a link-local address, so they work in block mode.
       - name: Runner info (arch, region)
         run: |
           echo "arch=$(uname -m)"
           echo "region=$(curl -s --max-time 3 -H 'Metadata:true' 'http://169.254.169.254/metadata/instance/compute/location?api-version=2021-02-01&format=text')"
           echo "vmSize=$(curl -s --max-time 3 -H 'Metadata:true' 'http://169.254.169.254/metadata/instance/compute/vmSize?api-version=2021-02-01&format=text')"
-          echo "--- egress-dns-resolver (before agent)"
+          echo "--- egress-dns-resolver"
           systemctl is-enabled egress-dns-resolver.service || true
           sudo ss -lunpH 'sport = :53' || true
 
       - name: Harden Runner
         uses: prateek-stepsecurity/harden-runner@int
         with:
-          egress-policy: audit
+          egress-policy: block
+          allowed-endpoints: >
+            github.com:443
+            registry.yarnpkg.com:443
 
-      - run: curl google.com
+      - name: curl allowlisted registry.yarnpkg.com
+        if: always()
+        run: |
+          for i in 1 2 3; do
+            curl -sS -o /dev/null -w "attempt $i: HTTP %{http_code}\n" --connect-timeout 5 --max-time 10 https://registry.yarnpkg.com/ && exit 0
+          done
+          exit 1
+
+      - name: DNS state (after agent)
+        if: always()
+        run: |
+          cat /etc/resolv.conf
+          resolvectl status | head -20 || true
