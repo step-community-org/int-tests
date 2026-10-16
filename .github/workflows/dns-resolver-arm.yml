@@ -1,0 +1,31 @@
+name: DNS resolver / ARM check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: "${{ matrix.os }} #${{ matrix.run }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+        run: [1, 2, 3, 4]
+    steps:
+      # Runs before harden-runner so block mode cannot interfere with the metadata call.
+      - name: Runner info (arch, region)
+        run: |
+          echo "arch=$(uname -m)"
+          echo "region=$(curl -s --max-time 3 -H 'Metadata:true' 'http://169.254.169.254/metadata/instance/compute/location?api-version=2021-02-01&format=text')"
+          echo "vmSize=$(curl -s --max-time 3 -H 'Metadata:true' 'http://169.254.169.254/metadata/instance/compute/vmSize?api-version=2021-02-01&format=text')"
+          echo "--- egress-dns-resolver (before agent)"
+          systemctl is-enabled egress-dns-resolver.service || true
+          sudo ss -lunpH 'sport = :53' || true
+
+      - name: Harden Runner
+        uses: prateek-stepsecurity/harden-runner@int
+        with:
+          egress-policy: audit
+
+      - run: curl google.com
