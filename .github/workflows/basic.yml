@@ -17,9 +17,15 @@ jobs:
       - uses: actions/checkout@v3
 
       - run: curl https://www.google.com
-      - run: curl https://microsoft.com
-      - run: sleep 10
-      - run: curl https://www.goreleaser.com
+      - name: Run curl https://microsoft.com
+        if: always()
+        run: curl https://microsoft.com
+      - name: sleep
+        if: always()
+        run: sleep 10
+      - name: Run curl https://www.goreleaser.com
+        if: always()
+        run: curl https://www.goreleaser.com
       - name: DNS debug
         if: always()
         continue-on-error: true
