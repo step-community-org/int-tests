@@ -39,6 +39,7 @@ jobs:
         resolvectl status
         ls -la /etc/systemd/resolved.conf.d/ /run/systemd/resolved.conf.d/ 2>&1
         cat /etc/resolv.conf
+        cat /etc/systemd/resolved.conf.d/90-egress-proxy.conf
         ss -lunp | grep ':53'
         resolvectl query github.com
         resolvectl query registry-1.docker.io
@@ -73,6 +74,7 @@ jobs:
         resolvectl status
         ls -la /etc/systemd/resolved.conf.d/ /run/systemd/resolved.conf.d/ 2>&1
         cat /etc/resolv.conf
+        cat /etc/systemd/resolved.conf.d/90-egress-proxy.conf
         ss -lunp | grep ':53'
         resolvectl query github.com
         resolvectl query registry-1.docker.io
@@ -118,6 +120,7 @@ jobs:
         resolvectl status
         ls -la /etc/systemd/resolved.conf.d/ /run/systemd/resolved.conf.d/ 2>&1
         cat /etc/resolv.conf
+        cat /etc/systemd/resolved.conf.d/90-egress-proxy.conf
         ss -lunp | grep ':53'
         resolvectl query github.com
         resolvectl query registry-1.docker.io
