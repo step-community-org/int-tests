@@ -7,7 +7,7 @@ jobs:
   egress-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@rc
+      - uses: h0x0er/harden-runner@gh-dns-test
         with:
           egress-policy: block
           disable-sudo: true
