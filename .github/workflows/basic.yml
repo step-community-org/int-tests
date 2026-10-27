@@ -7,7 +7,7 @@ jobs:
   egress-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: prateek-stepsecurity/harden-runner@int
+      - uses: h0x0er/harden-runner@gh-dns-test
         with:
           egress-policy: block
           disable-sudo: true
