@@ -2,6 +2,8 @@ name: Block test
 on:
   workflow_dispatch:
 
+cache-mode: none
+
 jobs:
   block:
     strategy:
